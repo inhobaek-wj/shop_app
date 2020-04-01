@@ -20,20 +20,26 @@ class ProductItem extends StatelessWidget {
         fit: BoxFit.cover,
       ),
 
-      footer: GridTileBar(
-        title: Text(
-          title,
-          textAlign: TextAlign.center,
-        ),
-        backgroundColor: Colors.black54,
-        leading: IconButton(
-          icon: const Icon(Icons.favorite),
-          onPressed: () {},
-        ),
+      footer: ClipRRect(
+        borderRadius: BorderRadius.circular(10),
 
-        trailing: IconButton(
-          icon: const Icon(Icons.shopping_cart),
-          onPressed: () {},
+        child: GridTileBar(
+          title: Text(
+            title,
+            textAlign: TextAlign.center,
+          ),
+          backgroundColor: Colors.black87,
+          leading: IconButton(
+            icon: const Icon(Icons.favorite),
+            color: Theme.of(context).accentColor,
+            onPressed: () {},
+          ),
+
+          trailing: IconButton(
+            icon: const Icon(Icons.shopping_cart),
+            color: Theme.of(context).accentColor,
+            onPressed: () {},
+          ),
         ),
       ),
 

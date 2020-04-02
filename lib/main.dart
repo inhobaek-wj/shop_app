@@ -6,6 +6,7 @@ import 'screens/product_detail_screen.dart';
 import 'screens/cart_screen.dart';
 import 'store/products.dart';
 import 'store/cart.dart';
+import 'store/order.dart';
 
 void main() {
   runApp(MyApp());
@@ -28,9 +29,14 @@ class MyApp extends StatelessWidget {
           // ChangeNotifierProvider cleans up data when widget is disposed.
           // Since provider version 3.2.0 "builder" is marked as deprecated in favor of "create".
         ),
+
         ChangeNotifierProvider.value(
           value: Cart(),
-        )
+        ),
+
+        ChangeNotifierProvider.value(
+          value: Orders(),
+        ),
       ],
 
       child: MaterialApp(

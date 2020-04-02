@@ -4,6 +4,7 @@ import 'package:provider/provider.dart';
 import 'screens/products_overview_screen.dart';
 import 'screens/product_detail_screen.dart';
 import 'store/products.dart';
+import 'store/cart.dart';
 
 void main() {
   runApp(MyApp());
@@ -16,13 +17,20 @@ class MyApp extends StatelessWidget {
     // return ChangeNotifierProvider(
     // builder: (ctx) => Products(),
 
-    return ChangeNotifierProvider.value(
-      value: Products(), // if don't need ctx, you can use value() method like the line above.
+    return MultiProvider(
+      providers: <SingleChildCloneableWidget>[
+        ChangeNotifierProvider.value(
+          value: Products(), // if don't need ctx, you can use value() method like the line above.
 
-      // about ChangeNotifierProvider.
-      // it makes sure that provider works even if data changes for the widget.
-      // ChangeNotifierProvider cleans up data when widget is disposed.
-      // Since provider version 3.2.0 "builder" is marked as deprecated in favor of "create".
+          // about ChangeNotifierProvider.
+          // it makes sure that provider works even if data changes for the widget.
+          // ChangeNotifierProvider cleans up data when widget is disposed.
+          // Since provider version 3.2.0 "builder" is marked as deprecated in favor of "create".
+        ),
+        ChangeNotifierProvider.value(
+          value: Cart(),
+        )
+      ],
 
       child: MaterialApp(
         title: 'Flutter Demo',

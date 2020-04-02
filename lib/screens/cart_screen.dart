@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../store/cart.dart' show Cart;
+import '../store/order.dart';
 import '../widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
@@ -71,10 +72,22 @@ class CartScreen extends StatelessWidget {
         ],
       ),
 
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {  },
+      floatingActionButton: Consumer<Cart>(
+        builder: (_, cart, ch) => FloatingActionButton(
+          onPressed: () {
+            Provider.of<Orders>(context,listen: false).addOrder(
+              cart.items.values.toList(),
+              cart.totalAmount
+            );
+
+            cart.clear();
+          },
+          backgroundColor: Theme.of(context).primaryColor,
+          child: ch,
+        ),
+
         child: Text('Order'),
-        backgroundColor: Theme.of(context).primaryColor,
+
       ),
 
     );

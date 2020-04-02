@@ -18,7 +18,7 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final product = Provider.of<Product>(context);
+    final product = Provider.of<Product>(context, listen: false);
 
     return GestureDetector(
       onTap: () {
@@ -38,19 +38,24 @@ class ProductItem extends StatelessWidget {
           borderRadius: BorderRadius.circular(10),
 
           child: GridTileBar(
+
             title: Text(
               product.title,
               textAlign: TextAlign.center,
             ),
+
             backgroundColor: Colors.black87,
-            leading: IconButton(
-              icon: Icon(
-                product.isFavorite ? Icons.favorite
-                : Icons.favorite_border),
-              color: Theme.of(context).accentColor,
-              onPressed: () {
-                product.toggleFavorite();
-              },
+
+            leading: Consumer<Product>(
+              builder: (BuildContext context, Product product, Widget child) => IconButton(
+                icon: Icon(
+                  product.isFavorite ? Icons.favorite
+                  : Icons.favorite_border),
+                color: Theme.of(context).accentColor,
+                onPressed: () {
+                  product.toggleFavorite();
+                },
+              ),
             ),
 
             trailing: IconButton(

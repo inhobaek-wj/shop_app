@@ -17,7 +17,7 @@ class MyApp extends StatelessWidget {
     // builder: (ctx) => Products(),
 
     return ChangeNotifierProvider.value(
-      value: Products(), // if don't need ctx, you can use value() method.
+      value: Products(), // if don't need ctx, you can use value() method like the line above.
 
       // about ChangeNotifierProvider.
       // it makes sure that provider works even if data changes for the widget.

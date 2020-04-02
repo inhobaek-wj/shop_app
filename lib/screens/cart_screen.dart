@@ -19,28 +19,46 @@ class CartScreen extends StatelessWidget {
           Card(
             margin: const EdgeInsets.all(15),
 
-            child: Row(
-              children: <Widget>[
-                Text(
-                  'Total',
-                  style: TextStyle(
-                    fontSize: 20,
-                  ),
-                ),
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
 
-                SizedBox(width: 10,),
-
-                Consumer<Cart>(
-                  builder: (BuildContext context, Cart cart, Widget child) => Chip(
-                    label: Text('\$${cart.totalAmount}'),
-                    backgroundColor: Theme.of(context).primaryColor,
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: <Widget>[
+                  Text(
+                    'Total',
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
-                ),
-              ],
+
+                  Spacer(),
+
+                  Consumer<Cart>(
+                    builder: (BuildContext context, Cart cart, Widget child) => Chip(
+                      label: Text(
+                        '\$${cart.totalAmount}',
+                        style: TextStyle(
+                          color: Theme.of(context).primaryTextTheme.headline6.color
+                        ),
+                      ),
+                      backgroundColor: Theme.of(context).primaryColor,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
+
         ],
       ),
+
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {  },
+        child: Text('Order'),
+        backgroundColor: Theme.of(context).primaryColor,
+      ),
+
     );
   }
 

@@ -44,9 +44,13 @@ class ProductItem extends StatelessWidget {
             ),
             backgroundColor: Colors.black87,
             leading: IconButton(
-              icon: const Icon(Icons.favorite),
+              icon: Icon(
+                product.isFavorite ? Icons.favorite
+                : Icons.favorite_border),
               color: Theme.of(context).accentColor,
-              onPressed: () {},
+              onPressed: () {
+                product.toggleFavorite();
+              },
             ),
 
             trailing: IconButton(

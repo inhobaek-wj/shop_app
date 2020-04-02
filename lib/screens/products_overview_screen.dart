@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../widgets/products_grid.dart';
+import '../widgets/badge.dart';
+import '../store/cart.dart';
 
 enum FilterOptions {
   Fatorites,
@@ -47,8 +50,25 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                 child: Text('Show All'),
                 value: FilterOptions.All
               ),
+
             ],
           ),
+
+          Consumer<Cart>(
+            builder: (BuildContext context, Cart cart, Widget ch) =>
+            Badge(
+              value: cart.itemCount.toString(),
+              child: ch,
+              // this child(ch) never rebuild,
+              // even though state which is listened by provider is changed.
+              // and it is Consumer's child.
+            ),
+            child: IconButton(
+              icon: Icon(Icons.shopping_cart),
+              onPressed: () {  },
+            )
+          ),
+
         ],
       ),
 

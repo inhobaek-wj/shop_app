@@ -3,6 +3,7 @@ import 'package:provider/provider.dart';
 
 import '../store/order.dart' show Orders;
 import '../widgets/order_item.dart';
+import '../widgets/app_drawer.dart';
 
 class OrdersScreen extends StatelessWidget {
 
@@ -16,6 +17,8 @@ class OrdersScreen extends StatelessWidget {
       appBar: AppBar(
         title: Text('Order')
       ),
+
+      drawer: AppDrawer(),
 
       body: ListView.builder(
         itemCount: orderData.orders.length,

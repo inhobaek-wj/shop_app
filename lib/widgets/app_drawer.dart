@@ -15,7 +15,7 @@ class AppDrawer extends StatelessWidget {
             automaticallyImplyLeading: false,
           ),
 
-          Divider(),
+          // Divider(),
 
           ListTile(
             leading: Icon(Icons.shop),

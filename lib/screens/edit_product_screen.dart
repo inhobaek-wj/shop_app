@@ -14,6 +14,15 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _descriptionFocusNode = FocusNode();
 
   @override
+  void dispose() {
+    // this is important and you should do it, otherwise memory leak will be caused.
+    _priceFocusNode.dispose();
+    _descriptionFocusNode.dispose();
+
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
 
     return Scaffold(

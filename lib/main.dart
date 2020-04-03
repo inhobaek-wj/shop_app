@@ -5,9 +5,9 @@ import 'screens/products_overview_screen.dart';
 import 'screens/product_detail_screen.dart';
 import 'screens/cart_screen.dart';
 import 'screens/orders_screen.dart';
-import 'store/products.dart';
-import 'store/cart.dart';
-import 'store/order.dart';
+import 'providers/products.dart';
+import 'providers/cart.dart';
+import 'providers/order.dart';
 
 void main() {
   runApp(MyApp());

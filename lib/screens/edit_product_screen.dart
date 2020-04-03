@@ -9,6 +9,9 @@ class EditProductScreen extends StatefulWidget {
 }
 
 class _EditProductScreenState extends State<EditProductScreen> {
+
+  final _priceFocusNode = FocusNode();
+
   @override
   Widget build(BuildContext context) {
 
@@ -17,13 +20,32 @@ class _EditProductScreenState extends State<EditProductScreen> {
         title: Text('Edit Product')
       ),
 
-      // body: ListView.builder(
-      //   itemCount: orderData.orders.length,
+      body: Padding(
+        padding: const EdgeInsets.all(16.0),
 
-      //   itemBuilder: (context, index) => OrderItem(
-      //     orderData.orders[index]
-      //   ),
-      // ),
+        child: Form(
+          child: ListView(
+            children: <Widget>[
+
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Title'),
+                textInputAction: TextInputAction.next,
+                onFieldSubmitted: (String value) {
+                  FocusScope.of(context).requestFocus(_priceFocusNode);
+                },
+              ),
+
+              TextFormField(
+                decoration: InputDecoration(labelText: 'Price'),
+                textInputAction: TextInputAction.next,
+                keyboardType: TextInputType.number,
+                focusNode: _priceFocusNode,
+              ),
+
+            ],
+          ),
+        ),
+      ),
 
     );
   }

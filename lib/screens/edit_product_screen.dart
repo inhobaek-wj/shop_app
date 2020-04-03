@@ -51,6 +51,10 @@ class _EditProductScreenState extends State<EditProductScreen> {
   }
 
   void _saveForm() {
+    final bool _isValid = _form.currentState.validate();
+    if (!_isValid) {
+      return;
+    }
     _form.currentState.save();
   }
 
@@ -93,6 +97,13 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     description: _editedProduct.description,
                   );
                 },
+
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please type';
+                  }
+                  return null;
+                },
               ),
 
               TextFormField(
@@ -113,6 +124,20 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     description: _editedProduct.description,
                   );
                 },
+
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please type';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Please type valid number';
+                  }
+                  if (double.parse(value) <= 0) {
+                    return 'Please type valid number';
+                  }
+                  return null;
+                },
+
               ),
 
               TextFormField(
@@ -130,6 +155,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     description: value,
                   );
                 },
+
+                validator: (value) {
+                  if (value.isEmpty) {
+                    return 'Please type';
+                  }
+                  return null;
+                },
+
               ),
 
               Row(
@@ -179,6 +212,19 @@ class _EditProductScreenState extends State<EditProductScreen> {
                           imageUrl: value,
                           description: _editedProduct.description,
                         );
+                      },
+
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please type';
+                        }
+                        if (!value.startsWith('http')
+                          && !value.startsWith('http')
+                          && !value.endsWith('.jpg')
+                          && !value.endsWith('.png')) {
+                          return 'Please type vaid URL';
+                        }
+                        return null;
                       },
 
                     ),

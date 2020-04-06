@@ -122,32 +122,30 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchProducts() async {
+    print('fetch products');
+
     const url = serverUrl + 'products.json';
-    try {
-      final response = await http.get(url);
-      final extractedData = json.decode(response.body) as Map<String, dynamic>;
-      final List<Product> loadedProducts = [];
 
-      if (extractedData != null){
-
-        extractedData.forEach((id, item) {
-            loadedProducts.add(Product(
-                id: id,
-                title: item['title'],
-                description: item['description'],
-                price: item['price'],
-                imageUrl: item['imageUrl'],
-            ));
-        });
-
-      }
-
-      _items = loadedProducts;
-      notifyListeners();
-
-    } catch(error) {
-      throw(error);
+    final response = await http.get(url);
+    final extractedData = json.decode(response.body) as Map<String, dynamic>;
+    if (extractedData == null) {
+      return;
     }
+
+    final List<Product> loadedProducts = [];
+    extractedData.forEach((id, item) {
+        loadedProducts.add(Product(
+            id: id,
+            title: item['title'],
+            description: item['description'],
+            price: item['price'],
+            imageUrl: item['imageUrl'],
+        ));
+    });
+
+    _items = loadedProducts;
+    notifyListeners();
+
   }
 
 }

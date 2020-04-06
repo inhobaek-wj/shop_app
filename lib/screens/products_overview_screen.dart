@@ -22,15 +22,20 @@ class ProductsOverviewScreen extends StatefulWidget {
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   bool _showOnlyFavorite = false;
-  bool _isLoading = true;
+  bool _isLoading = false;
 
   @override
   void initState() {
-    Future.delayed(Duration.zero).then((_) {
-        Provider.of<Products>(context).fetchProducts();
-    })
-    .then((_) {
+
+    Future.delayed(Duration.zero).then((_) async {
         setState(() {
+            _isLoading = true;
+        });
+
+        await Provider.of<Products>(context, listen: false).fetchProducts();
+
+        setState(() {
+            print('loading end');
             _isLoading = false;
         });
     });

@@ -56,8 +56,43 @@ class Orders with ChangeNotifier {
           products: cartProducts
       ));
       notifyListeners();
+    } else {
+      throw Exception('error is occured');
     }
 
+  }
+
+  Future<void> fetchOrders() async {
+    const url = Products.serverUrl + 'orders';
+    try {
+      final response = await http.get(url);
+      final extractedData = json.decode(response.body) as Map<String, dynamic>;
+      if (extractedData == null){
+        return;
+      }
+
+      final List<OrderItem> loadedOrders = [];
+      extractedData.forEach((id, item) {
+          loadedOrders.add(OrderItem(
+              id: id,
+              amount: item['amount'],
+              dateTime: DateTime.parse(item['dateTime']),
+              products: (item['products'] as List<dynamic>).map((o) => CartItem(
+                  id: o['id'],
+                  price: o['price'],
+                  title: o['title'],
+                  quantity: o['quantity'],
+              )).toList(),
+          ));
+      });
+
+      _orders = loadedOrders;
+      notifyListeners();
+
+    } catch(error) {
+      print('error occured...');
+      // throw(error);
+    }
   }
 
 }

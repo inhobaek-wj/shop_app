@@ -122,7 +122,6 @@ class Products with ChangeNotifier {
   }
 
   Future<void> fetchProducts() async {
-    print('fetch products');
 
     const url = serverUrl + 'products.json';
 

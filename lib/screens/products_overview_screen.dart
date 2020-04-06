@@ -35,7 +35,6 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
         await Provider.of<Products>(context, listen: false).fetchProducts();
 
         setState(() {
-            print('loading end');
             _isLoading = false;
         });
     });

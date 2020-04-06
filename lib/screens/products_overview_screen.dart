@@ -27,13 +27,20 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
   @override
   void initState() {
 
-    Future.delayed(Duration.zero).then((_) async {
-        setState(() {
-            _isLoading = true;
-        });
+    // Future.delayed(Duration.zero).then((_) async {
+    //     setState(() {
+    //         _isLoading = true;
+    //     });
 
-        await Provider.of<Products>(context, listen: false).fetchProducts();
+    //     await Provider.of<Products>(context, listen: false).fetchProducts();
 
+    //     setState(() {
+    //         _isLoading = false;
+    //     });
+    // });
+
+    _isLoading = true;
+    Provider.of<Products>(context, listen: false).fetchProducts().then((_) {
         setState(() {
             _isLoading = false;
         });

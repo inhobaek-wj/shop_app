@@ -6,6 +6,7 @@ import '../widgets/products_grid.dart';
 import '../widgets/badge.dart';
 import '../widgets/app_drawer.dart';
 import '../providers/cart.dart';
+import '../providers/products.dart';
 
 enum FilterOptions {
   Fatorites,
@@ -21,6 +22,15 @@ class ProductsOverviewScreen extends StatefulWidget {
 class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
 
   bool _showOnlyFavorite = false;
+
+  @override
+  void initState() {
+    Future.delayed(Duration.zero).then((_) {
+        Provider.of<Products>(context).fetchProducts();
+    });
+
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {

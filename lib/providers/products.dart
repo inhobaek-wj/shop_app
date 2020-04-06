@@ -99,4 +99,15 @@ class Products with ChangeNotifier {
     _items.removeWhere((prod) => prod.id == id);
     notifyListeners();
   }
+
+  Future<void> fetchProducts() async {
+    const url = serverUrl + 'products.json';
+    try {
+      final response = await http.get(url);
+
+    } catch(error) {
+      throw(error);
+    }
+  }
+
 }

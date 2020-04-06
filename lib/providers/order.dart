@@ -63,7 +63,7 @@ class Orders with ChangeNotifier {
   }
 
   Future<void> fetchOrders() async {
-    const url = Products.serverUrl + 'orders';
+    const url = Products.serverUrl + 'orders.json';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;

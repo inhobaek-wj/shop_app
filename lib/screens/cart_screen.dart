@@ -72,25 +72,55 @@ class CartScreen extends StatelessWidget {
         ],
       ),
 
-      floatingActionButton: Consumer<Cart>(
-        builder: (_, cart, ch) => FloatingActionButton(
-          onPressed: () {
-            Provider.of<Orders>(context,listen: false).addOrder(
-              cart.items.values.toList(),
-              cart.totalAmount
-            );
-
-            cart.clear();
-          },
-          backgroundColor: Theme.of(context).primaryColor,
-          child: ch,
-        ),
-
-        child: Text('Order'),
-
-      ),
+      floatingActionButton: OrderButton(),
 
     );
   }
 
+}
+
+class OrderButton extends StatefulWidget {
+  const OrderButton({
+      Key key,
+  }) : super(key: key);
+
+  @override
+  _OrderButtonState createState() => _OrderButtonState();
+}
+
+class _OrderButtonState extends State<OrderButton> {
+  bool _isLoading = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer<Cart>(
+      builder: (_, cart, ch) => FloatingActionButton(
+
+        onPressed: cart.totalAmount <= 0 ? null
+        : () async {
+          setState(() {
+              _isLoading = true;
+          });
+
+          await Provider.of<Orders>(context,listen: false).addOrder(
+            cart.items.values.toList(),
+            cart.totalAmount
+          );
+
+          cart.clear();
+
+          setState(() {
+              _isLoading = false;
+          });
+        },
+
+        backgroundColor: cart.totalAmount <= 0 ? Colors.grey
+        : Theme.of(context).primaryColor,
+        child: ch,
+      ),
+
+      child: _isLoading ? CircularProgressIndicator() : Text('Order'),
+
+    );
+  }
 }

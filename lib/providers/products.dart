@@ -110,7 +110,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
 
-    final url = serverUrl + 'products/$id';
+    final url = serverUrl + 'products/$id.json';
     final response = await http.delete(url);
     if (response.statusCode == 200) {
       _items.removeWhere((prod) => prod.id == id);

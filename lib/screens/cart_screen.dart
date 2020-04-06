@@ -102,12 +102,13 @@ class _OrderButtonState extends State<OrderButton> {
               _isLoading = true;
           });
 
-          await Provider.of<Orders>(context,listen: false).addOrder(
-            cart.items.values.toList(),
-            cart.totalAmount
-          );
-
-          cart.clear();
+          try {
+            await Provider.of<Orders>(context,listen: false).addOrder(
+              cart.items.values.toList(),
+              cart.totalAmount
+            );
+            cart.clear();
+          } catch(error) {}
 
           setState(() {
               _isLoading = false;

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'product.dart';
+import '../models/http_exception.dart';
 
 class Products with ChangeNotifier {
 
@@ -107,9 +108,17 @@ class Products with ChangeNotifier {
     }
   }
 
-  void deleteProduct(String id) {
-    _items.removeWhere((prod) => prod.id == id);
-    notifyListeners();
+  Future<void> deleteProduct(String id) async {
+
+    final url = serverUrl + 'products/$id';
+    final response = await http.delete(url);
+    if (response.statusCode == 200) {
+      _items.removeWhere((prod) => prod.id == id);
+      notifyListeners();
+    } else {
+      throw HttpException('Could not delete product');
+    }
+
   }
 
   Future<void> fetchProducts() async {

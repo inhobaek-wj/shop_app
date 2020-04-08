@@ -9,6 +9,7 @@ import '../models/http_exception.dart';
 class Products with ChangeNotifier {
 
   static const serverUrl = 'https://flutter-shop-app-backend.firebaseio.com/';
+  final String authToken;
 
   List<Product> _items = [
     // Product(
@@ -45,6 +46,8 @@ class Products with ChangeNotifier {
     // ),
   ];
 
+  Products(this.authToken, this._items);
+
   List<Product> get items {
     return [..._items];
   }
@@ -58,7 +61,7 @@ class Products with ChangeNotifier {
   }
 
   Future<void> addProduct(Product product) {
-    const url = serverUrl + 'products.json';
+    final url = serverUrl + 'products.json?auth=$authToken';
 
     return http.post(
       url,
@@ -92,7 +95,7 @@ class Products with ChangeNotifier {
     final prodIndex = _items.indexWhere((prod) => prod.id == id);
 
     if (prodIndex >= 0) {
-      final url = serverUrl + 'products/$id.json';
+      final url = serverUrl + 'products/$id.json?auth=$authToken';
       http.patch(
         url,
         body: json.encode({
@@ -110,7 +113,7 @@ class Products with ChangeNotifier {
 
   Future<void> deleteProduct(String id) async {
 
-    final url = serverUrl + 'products/$id.json';
+    final url = serverUrl + 'products/$id.json?auth=$authToken';
     final response = await http.delete(url);
     if (response.statusCode == 200) {
       _items.removeWhere((prod) => prod.id == id);
@@ -123,7 +126,7 @@ class Products with ChangeNotifier {
 
   Future<void> fetchProducts() async {
 
-    const url = serverUrl + 'products.json';
+    final url = serverUrl + 'products.json?auth=$authToken';
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;

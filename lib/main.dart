@@ -26,13 +26,27 @@ class MyApp extends StatelessWidget {
 
     return MultiProvider(
       providers: <SingleChildCloneableWidget>[
-        ChangeNotifierProvider.value(
-          value: Products(), // if don't need ctx, you can use value() method like the line above.
+        // ChangeNotifierProvider.value(
+        //   value: Products(), // if don't need ctx, you can use value() method like the line above.
 
-          // about ChangeNotifierProvider.
-          // it makes sure that provider works even if data changes for the widget.
-          // ChangeNotifierProvider cleans up data when widget is disposed.
-          // Since provider version 3.2.0 "builder" is marked as deprecated in favor of "create".
+        //   // about ChangeNotifierProvider.
+        //   // it makes sure that provider works even if data changes for the widget.
+        //   // ChangeNotifierProvider cleans up data when widget is disposed.
+        //   // Since provider version 3.2.0 "builder" is marked as deprecated in favor of "create".
+        // ),
+
+        // this provider setting should be before ChangeNotifierProxyProvider.
+        ChangeNotifierProvider.value(
+          value: Auth(),
+        ),
+
+        ChangeNotifierProxyProvider<Auth, Products>(
+          create: (context) => Products(null,[]),
+
+          update: (_, auth, previous) => Products(
+            auth.token,
+            previous.items,
+          ),
         ),
 
         ChangeNotifierProvider.value(
@@ -41,10 +55,6 @@ class MyApp extends StatelessWidget {
 
         ChangeNotifierProvider.value(
           value: Orders(),
-        ),
-
-        ChangeNotifierProvider.value(
-          value: Auth(),
         ),
 
       ],

@@ -34,7 +34,7 @@ class Product with ChangeNotifier {
 
     http.put(
       url,
-      body: json.encode(isFavorite),
+      body: json.encode(!isFavorite),
     )
 
     .then((response) {

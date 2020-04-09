@@ -22,14 +22,19 @@ class Product with ChangeNotifier {
       this.isFavorite = false
   });
 
-  void toggleFavorite(){
-    final url = Products.serverUrl + 'products/$id.json';
+  void toggleFavorite(String token, String userId){
+    final url = Products.serverUrl + '/userFavorites/$userId/$id.json?auth=$token';
 
-    http.patch(
+    // http.patch(
+    //   url,
+    //   body: json.encode({
+    //       'isFavorite': isFavorite
+    //   }),
+    // )
+
+    http.put(
       url,
-      body: json.encode({
-          'isFavorite': isFavorite
-      }),
+      body: json.encode(isFavorite),
     )
 
     .then((response) {

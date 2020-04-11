@@ -11,12 +11,14 @@ class UserProductScreen extends StatelessWidget {
   static const routeName = '/user-product';
 
   Future<void> _refreshProducts(BuildContext ctx) async {
-    await Provider.of<Products>(ctx).fetchProducts(true);
+    await Provider.of<Products>(ctx, listen: false).fetchProducts(true);
   }
 
   @override
   Widget build(BuildContext context) {
-    final productsData = Provider.of<Products>(context);
+    // the line below should be commented,
+    // because FutureBuilder is used, and it causes infinite loop.
+    // final productsData = Provider.of<Products>(context);
 
     return Scaffold(
       appBar: AppBar(
@@ -33,25 +35,33 @@ class UserProductScreen extends StatelessWidget {
 
       drawer: AppDrawer(),
 
-      body: RefreshIndicator(
-        onRefresh: () => _refreshProducts(context),
+      body: FutureBuilder(
+        future: _refreshProducts(context),
+        builder: (context, AsyncSnapshot snapshot) =>
+        snapshot.connectionState == ConnectionState.waiting ?
+        Center(child: CircularProgressIndicator(),)
+        : RefreshIndicator(
+          onRefresh: () => _refreshProducts(context),
 
-        child: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: ListView.builder(
-            itemCount: productsData.items.length,
+          child: Consumer<Products>(
+            builder: (_, productsData, child) => Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListView.builder(
+                itemCount: productsData.items.length,
 
-            itemBuilder: (context, index) => Column(
-              children: <Widget>[
-                UserProductItem(
-                  productsData.items[index].id,
-                  productsData.items[index].title,
-                  productsData.items[index].imageUrl,
-                  productsData.deleteProduct
+                itemBuilder: (context, index) => Column(
+                  children: <Widget>[
+                    UserProductItem(
+                      productsData.items[index].id,
+                      productsData.items[index].title,
+                      productsData.items[index].imageUrl,
+                      productsData.deleteProduct
+                    ),
+
+                    Divider(),
+                  ],
                 ),
-
-                Divider(),
-              ],
+              ),
             ),
           ),
         ),

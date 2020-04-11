@@ -71,6 +71,7 @@ class Products with ChangeNotifier {
           'price': product.price,
           'imageUrl': product.imageUrl,
           'description': product.description,
+          'creatorId': userId,
       }),
     ).then((response) {
 
@@ -125,9 +126,11 @@ class Products with ChangeNotifier {
 
   }
 
-  Future<void> fetchProducts() async {
+  Future<void> fetchProducts([bool filterByUser = false]) async {
 
-    String url = serverUrl + 'products.json?auth=$authToken';
+    final filter = filterByUser ? 'orderBy="creatorId"&equalTo="$userId"' : '';
+    String url = serverUrl + 'products.json?auth=$authToken&$filter';
+
     try {
       final response = await http.get(url);
       final extractedData = json.decode(response.body) as Map<String, dynamic>;

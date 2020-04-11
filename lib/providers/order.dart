@@ -95,6 +95,7 @@ class Orders with ChangeNotifier {
 
     } catch(error) {
       print('error occured...');
+      print(error);
       // throw (error);
     }
   }

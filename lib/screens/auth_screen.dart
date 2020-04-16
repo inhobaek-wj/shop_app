@@ -101,7 +101,7 @@ class AuthCard extends StatefulWidget {
   _AuthCardState createState() => _AuthCardState();
 }
 
-class _AuthCardState extends State<AuthCard> {
+class _AuthCardState extends State<AuthCard> with SingleTickerProviderStateMixin {
   final GlobalKey<FormState> _formKey = GlobalKey();
   AuthMode _authMode = AuthMode.Login;
   bool _isLoading = false;
@@ -110,7 +110,34 @@ class _AuthCardState extends State<AuthCard> {
     'email': '',
     'password': '',
   };
+  AnimationController _controller;
+  Animation<Size> _heightAnimation;
 
+  @override
+  void initState() {
+    _controller = AnimationController(
+      vsync: this,
+      duration: Duration(milliseconds: 300)
+    );
+
+    _heightAnimation = Tween<Size>(
+      begin: Size(double.infinity, 260),
+      end: Size(double.infinity, 320),
+    ).animate(CurvedAnimation(
+        parent: _controller,
+        curve: Curves.linear,
+    ));
+
+    _heightAnimation.addListener(() => setState(() {}));
+
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
 
   void _showErrorDialog(String message) {
     showDialog(
@@ -177,7 +204,7 @@ class _AuthCardState extends State<AuthCard> {
 
     } catch(error) {
       const errorMessage =
-          'Could not authenticate you. Please try again later.';
+      'Could not authenticate you. Please try again later.';
       _showErrorDialog(errorMessage);
 
     }
@@ -193,11 +220,14 @@ class _AuthCardState extends State<AuthCard> {
       setState(() {
           _authMode = AuthMode.Signup;
       });
+      _controller.forward();
 
     } else {
       setState(() {
           _authMode = AuthMode.Login;
       });
+      _controller.reverse();
+
     }
   }
 
@@ -212,9 +242,11 @@ class _AuthCardState extends State<AuthCard> {
       elevation: 8.0,
 
       child: Container(
-        height: _authMode == AuthMode.Signup ? 320 : 260,
+        // height: _authMode == AuthMode.Signup ? 320 : 260,
+        height: _heightAnimation.value.height,
         constraints:
-        BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
+        // BoxConstraints(minHeight: _authMode == AuthMode.Signup ? 320 : 260),
+        BoxConstraints(minHeight: _heightAnimation.value.height),
         width: deviceSize.width * 0.75,
         padding: EdgeInsets.all(16.0),
 

@@ -255,7 +255,7 @@ class _AuthCardState extends State<AuthCard> with SingleTickerProviderStateMixin
           child: ch,
         ),
 
-        child: Form(
+        child: Form( // child will not be re-builded.
           key: _formKey,
 
           child: SingleChildScrollView(

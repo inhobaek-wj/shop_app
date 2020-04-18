@@ -33,10 +33,11 @@ class ProductItem extends StatelessWidget {
       },
 
       child: GridTile(
-        child: Image.network(
-          product.imageUrl,
+        child: FadeInImage(
+          placeholder: AssetImage('assets/images/product_placeholder.png'),
+          image: NetworkImage(product.imageUrl),
           fit: BoxFit.cover,
-        ),
+        ), 
 
         footer: ClipRRect(
           borderRadius: BorderRadius.circular(10),

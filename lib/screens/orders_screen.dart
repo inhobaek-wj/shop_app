@@ -37,7 +37,7 @@ class OrdersScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final orderData = Provider.of<Orders>(context);
+    // final orderData = Provider.of<Orders>(context, listen: false);
 
     return Scaffold(
       appBar: AppBar(
@@ -62,11 +62,13 @@ class OrdersScreen extends StatelessWidget {
               );
 
             } else {
-              return ListView.builder(
-                itemCount: orderData.orders.length,
+              return Consumer<Orders>(
+                builder: (_, orderData, __) => ListView.builder(
+                  itemCount: orderData.orders.length,
 
-                itemBuilder: (context, index) => OrderItem(
-                  orderData.orders[index]
+                  itemBuilder: (context, index) => OrderItem(
+                    orderData.orders[index]
+                  ),
                 ),
               );
             }
